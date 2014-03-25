@@ -22,5 +22,7 @@ namespace Company.App.Infraestructure
         {
            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
+        public System.Data.Entity.DbSet<Company.App.Domain.Course> Courses { get; set; }
     }
 }
