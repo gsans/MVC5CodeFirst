@@ -27,3 +27,5 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
+Company.App.MvcUI/App_Data/AppDatabase.mdf
+Company.App.MvcUI/App_Data/AppDatabase_log.ldf
