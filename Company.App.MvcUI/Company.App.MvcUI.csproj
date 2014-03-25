@@ -158,7 +158,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Company.App.Domain\Company.App.Domain\Company.App.Domain.csproj">
+      <Project>{825a5198-f9d1-4b4f-aab9-0e28e6687cf4}</Project>
+      <Name>Company.App.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
