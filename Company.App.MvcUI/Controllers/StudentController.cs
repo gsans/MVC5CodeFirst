@@ -13,12 +13,17 @@ namespace Company.App.MvcUI.Controllers
 {
     public class StudentController : Controller
     {
-        private AppContext db = new AppContext();
+        private IRepository<Student> _repo;
+
+        public StudentController()
+        {
+            _repo = new StudentRepository(new AppContext());
+        }
 
         // GET: /Student/
         public ActionResult Index()
         {
-            return View(db.Students.ToList());
+            return View(_repo.GetAll());
         }
 
         // GET: /Student/Details/5
@@ -28,7 +33,7 @@ namespace Company.App.MvcUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Students.Find(id);
+            Student student = _repo.GetById(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -51,8 +56,8 @@ namespace Company.App.MvcUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Students.Add(student);
-                db.SaveChanges();
+                _repo.Insert(student);
+                _repo.Save();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +71,7 @@ namespace Company.App.MvcUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Students.Find(id);
+            Student student = _repo.GetById(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -83,8 +88,8 @@ namespace Company.App.MvcUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(student).State = EntityState.Modified;
-                db.SaveChanges();
+                _repo.Update(student);
+                _repo.Save();
                 return RedirectToAction("Index");
             }
             return View(student);
@@ -97,7 +102,7 @@ namespace Company.App.MvcUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Students.Find(id);
+            Student student = _repo.GetById(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -110,9 +115,9 @@ namespace Company.App.MvcUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Student student = db.Students.Find(id);
-            db.Students.Remove(student);
-            db.SaveChanges();
+            Student student = _repo.GetById(id);
+            _repo.Delete(student);
+            _repo.Save();
             return RedirectToAction("Index");
         }
 
@@ -120,7 +125,7 @@ namespace Company.App.MvcUI.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _repo.Dispose();
             }
             base.Dispose(disposing);
         }
